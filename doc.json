@@ -1,0 +1,29 @@
+{
+  "name": "safe-eval",
+  "description": "Run javascript in a safe plugin using ;",
+  "author": "cake",
+  "config": {
+    "host-only": {
+      "description": "Whether eval is available to the host only",
+      "type": "boolean",
+      "default": true
+    },
+    "authorized": {
+      "description": "Comma separated list of authorized usernames",
+      "type": "string",
+      "default": ""
+    }
+  },
+  "commands": [
+    {
+      "name": ";",
+      "description": "Run arbitrary javascript",
+      "example": ";console.log('hi')",
+      "args": [{
+        "name": "javascript",
+        "description": "Javascript to run",
+        "required": true
+      }]
+    }
+  ]
+}
