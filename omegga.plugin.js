@@ -10,9 +10,10 @@ module.exports = class Eval {
         try {
           if (message[0] !== ';' && !message.startsWith('&scl;')) return;
           const code = message.slice(message.startsWith('&scl;') ? 5 : 1);
+          const player = Omegga.getPlayer(name);
           if (
-            this.config['host-only'] && !Omegga.getPlayer(name).isHost() &&
-            !this.config['authorized'].split(',').includes(name)
+            this.config['only-authorized'] && !player.isHost() &&
+            !this.config['authorized-users'].some(p => player.id === p.id)
           ) return;
           console.info(name, 'eval:', code);
           try {
