@@ -4,6 +4,10 @@ This eval does not access to any node modules and can only shut your server down
 
 ## Install
 
+Easy: `omegga install gh:Meshiest/safeeval`
+
+Manual:
+
 * `git clone https://github.com/meshiest/omegga-safeeval safeeval` in `plugins` directory
 
 ## Commands
