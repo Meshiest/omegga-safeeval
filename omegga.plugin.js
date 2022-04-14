@@ -72,7 +72,7 @@ module.exports = class Eval {
         console.info(name, 'eval:', code);
         try {
           global.plugin = this;
-          eval(code);
+          const result = eval(code);
           if (result instanceof Promise)
             Omegga.broadcast(`"<code>${await result}</>"`);
           else Omegga.broadcast(`"<code>${result}</>"`);
