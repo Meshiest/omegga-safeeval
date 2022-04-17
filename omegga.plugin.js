@@ -72,6 +72,8 @@ module.exports = class Eval {
         console.info(name, 'eval:', code);
         try {
           global.plugin = this;
+          global.name = name;
+          global.player = player;
           const result = eval(code);
           if (result instanceof Promise)
             Omegga.broadcast(`"<code>${await result}</>"`);
