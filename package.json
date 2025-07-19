@@ -1,0 +1,18 @@
+{
+  "name": "safeeval",
+  "version": "1.0.9",
+  "description": "cake plugin running eval",
+  "main": "omegga.plugin.ts",
+  "scripts": {
+    "test": "omegga"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Meshiest/omegga-safeeval.git"
+  },
+  "author": "Meshiest",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^24.0.15"
+  }
+}

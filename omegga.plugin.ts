@@ -1,8 +1,34 @@
-module.exports = class Eval {
-  constructor(omegga, config, store) {
+import OmeggaPlugin, { OL, OmeggaPlayer, PC, PS } from 'omegga';
+
+type Storage = {
+  modules: string[];
+};
+
+type Config = {
+  'only-authorized': boolean;
+  'authorized-users': { id: string; name: string }[];
+};
+
+declare global {
+  var plugin: Eval;
+  var player: OmeggaPlayer;
+}
+
+export default class Eval implements OmeggaPlugin<Config, Storage> {
+  omegga: OL;
+  config: PC<Config>;
+  store: PS<Storage>;
+
+  modules: Record<
+    string,
+    (plugin: Eval, util: typeof OMEGGA_UTIL) => { registeredCommands: string[] }
+  >;
+
+  constructor(omegga: OL, config: PC<Config>, store: PS<Storage>) {
     this.omegga = omegga;
     this.config = config;
     this.store = store;
+
     this.modules = {};
   }
 
@@ -15,7 +41,7 @@ module.exports = class Eval {
   }
 
   // add a module to the ones that will be loaded
-  async addModule(name, load = false) {
+  async addModule(name: string, load = false) {
     await this.store.set(
       'modules',
       ((await this.store.get('modules')) || []).concat([name])
@@ -25,10 +51,10 @@ module.exports = class Eval {
   }
 
   // add a module to the ones that will be loaded
-  async removeModule(name) {
+  async removeModule(name: string) {
     await this.store.set(
       'modules',
-      ((await this.store.get('modules')) || []).filter(m => m.name !== name)
+      ((await this.store.get('modules')) || []).filter(m => m !== name)
     );
     return 'ok';
   }
@@ -72,7 +98,7 @@ module.exports = class Eval {
         console.info(name, 'eval:', code);
         try {
           global.plugin = this;
-          global.name = name;
+          (global as any).name = name;
           global.player = player;
           const result = eval(code);
           if (result instanceof Promise)
@@ -91,5 +117,5 @@ module.exports = class Eval {
     return { registeredCommands };
   }
 
-  stop() {}
-};
+  async stop() {}
+}
